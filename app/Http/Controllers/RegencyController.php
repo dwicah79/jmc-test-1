@@ -72,6 +72,23 @@ class RegencyController extends Controller
         }
     }
 
+    public function update(Request $request, $id)
+    {
+        try {
+            $data = $request->validate([
+                'name' => 'required|string|max:255',
+                'population' => 'required|integer',
+                'province_id' => 'required|exists:provinces,id',
+            ]);
+
+            $this->regencyRepository->update($id, $data);
+
+            return redirect()->route('regencies.index')->with('success', 'Regency updated successfully');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to update regency');
+        }
+    }
+
     public function destroy($id)
     {
         try {
