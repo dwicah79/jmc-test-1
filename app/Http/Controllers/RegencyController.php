@@ -35,7 +35,7 @@ class RegencyController extends Controller
         $regencies = $query->paginate(10);
 
         $provinces = Province::all();
-
+        return $regencies;
         return view('regencies.index', [
             'regencies' => $regencies,
             'provinces' => $provinces,
