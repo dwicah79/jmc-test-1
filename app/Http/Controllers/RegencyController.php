@@ -35,12 +35,29 @@ class RegencyController extends Controller
         $regencies = $query->paginate(10);
 
         $provinces = Province::all();
-        return $regencies;
+        // return $regencies;
         return view('regencies.index', [
             'regencies' => $regencies,
             'provinces' => $provinces,
             'selectedProvince' => $provinceId,
             'searchQuery' => $search
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        try {
+            $data = $request->validate([
+                'name' => 'required|string|max:255',
+                'population' => 'required|integer',
+                'province_id' => 'required|exists:provinces,id',
+            ]);
+
+            $this->regencyRepository->create($data);
+
+            return back()->with('success', 'Regency created successfully');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to create regency');
+        }
     }
 }
