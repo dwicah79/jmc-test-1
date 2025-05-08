@@ -3,9 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\Province;
-use App\Repositories\Interfaces\ProvinsiRepositoryInterface;
+use App\Repositories\Interfaces\ProvinceRepositoryInterface;
 
-class ProvinceRepository implements ProvinsiRepositoryInterface
+class ProvinceRepository implements ProvinceRepositoryInterface
 {
     public function all()
     {
