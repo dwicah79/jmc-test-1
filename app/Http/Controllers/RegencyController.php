@@ -60,4 +60,14 @@ class RegencyController extends Controller
             return back()->with('error', 'Failed to create regency');
         }
     }
+
+    public function destroy($id)
+    {
+        try {
+            $this->regencyRepository->delete($id);
+            return back()->with('success', 'Regency deleted successfully');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to delete regency');
+        }
+    }
 }
