@@ -2,51 +2,67 @@
 @section('title', 'Daftar Populasi Kabupaten')
 @section('content')
 
-    <form action="{{ route('regencies.index') }}" method="GET" class="mb-6">
-        <div class="flex flex-col md:flex-row md:items-center gap-4">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <form action="{{ route('regencies.index') }}" method="GET" class="flex-grow">
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <input type="text" name="search" placeholder="Cari kabupaten atau populasi..."
+                        value="{{ request('search') }}"
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border">
+                </div>
 
-            <div class="w-full md:w-1/3">
-                <input type="text" name="search" placeholder="Cari kabupaten atau populasi..."
-                    value="{{ request('search') }}"
-                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border">
+                <div class="flex-1">
+                    <select name="province_id"
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border">
+                        <option value="">Semua Provinsi</option>
+                        @foreach ($provinces as $province)
+                            <option value="{{ $province->id }}"
+                                {{ request('province_id') == $province->id ? 'selected' : '' }}>
+                                {{ $province->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="flex gap-2">
+                    <button type="submit"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 whitespace-nowrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        Filter
+                    </button>
+                    <a href="{{ route('regencies.index') }}"
+                        class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 whitespace-nowrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        Reset
+                    </a>
+                </div>
             </div>
+        </form>
 
-            <div class="w-full md:w-1/3">
-                <select name="province_id"
-                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border">
-                    <option value="">Semua Provinsi</option>
-                    @foreach ($provinces as $province)
-                        <option value="{{ $province->id }}" {{ request('province_id') == $province->id ? 'selected' : '' }}>
-                            {{ $province->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-
-            <div class="w-full md:w-1/3 flex gap-2">
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1" viewBox="0 0 20 20"
-                        fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    Filter
-                </button>
-                <a href="{{ route('regencies.index') }}"
-                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1" viewBox="0 0 20 20"
-                        fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    Reset
-                </a>
-            </div>
-        </div>
-    </form>
+        <form action="{{ route('reports.regencies') }}" method="GET" target="_blank" class="flex-shrink-0">
+            <input type="hidden" name="search" value="{{ request('search') }}">
+            <input type="hidden" name="province_id" value="{{ request('province_id') }}">
+            <button type="submit"
+                class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 flex items-center whitespace-nowrap">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Cetak PDF
+            </button>
+        </form>
+    </div>
 
     <x-table>
         <x-slot name="thead">
