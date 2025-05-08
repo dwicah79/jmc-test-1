@@ -33,4 +33,16 @@ class ProvinceRepository implements ProvinceRepositoryInterface
     {
         return Province::destroy($id);
     }
+
+    public function getAllWithPopulationSum()
+    {
+        return Province::withSum('regencies', 'population')
+            ->orderBy('name')
+            ->get();
+    }
+
+    public function getAllSorted()
+    {
+        return Province::orderBy('name')->get();
+    }
 }
