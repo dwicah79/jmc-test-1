@@ -4,7 +4,7 @@ namespace App\Repositories\Interfaces;
 
 interface ProvinceRepositoryInterface
 {
-    public function all();
+    public function all($perpage = 10);
     public function create(array $data);
     public function find($id);
     public function update($id, array $data);
