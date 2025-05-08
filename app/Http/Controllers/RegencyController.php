@@ -61,6 +61,17 @@ class RegencyController extends Controller
         }
     }
 
+    public function edit($regencyId)
+    {
+        try {
+            $regency = $this->regencyRepository->find($regencyId);
+            $provinces = Province::all();
+            return view('regencies.edit', compact('regency', 'provinces'));
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to retrieve regency');
+        }
+    }
+
     public function destroy($id)
     {
         try {
