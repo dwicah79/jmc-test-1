@@ -37,4 +37,28 @@ class RegencyRepository implements RegencyRepositoryInterface
     {
         return Regency::destroy($id);
     }
+
+    public function getAllWithProvince()
+    {
+        return Regency::with('province')
+            ->orderBy('province_id')
+            ->orderBy('name')
+            ->get();
+    }
+
+    public function getByProvince($provinceId)
+    {
+        return Regency::with('province')
+            ->where('province_id', $provinceId)
+            ->orderBy('name')
+            ->get();
+    }
+
+    public function getAllSorted()
+    {
+        return Regency::with('province')
+            ->orderBy('province_id')
+            ->orderBy('name')
+            ->get();
+    }
 }
