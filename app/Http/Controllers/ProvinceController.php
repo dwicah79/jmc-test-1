@@ -16,7 +16,8 @@ class ProvinceController extends Controller
 
     public function index()
     {
-        $provinces = $this->provinceRepository->getAllProvinces();
+        $provinces = $this->provinceRepository->all(10);
+        return view('Province.index', compact('provinces'));
     }
 
     public function store(Request $request)
@@ -26,11 +27,21 @@ class ProvinceController extends Controller
                 'name' => 'required|string|max:255',
             ]);
 
-            $province = $this->provinceRepository->createProvince($data);
+            $province = $this->provinceRepository->create($data);
 
-            return response()->json($province, 201);
+            return back()->with('success', 'Province created successfully');
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to create province'], 500);
+        }
+    }
+
+    public function edit($provinceId)
+    {
+        try {
+            $province = $this->provinceRepository->find($provinceId);
+            return view('Province.edit', compact('province'));
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to retrieve province');
         }
     }
 
@@ -41,21 +52,21 @@ class ProvinceController extends Controller
                 'name' => 'required|string|max:255',
             ]);
 
-            $province = $this->provinceRepository->updateProvince($id, $data);
+            $province = $this->provinceRepository->update($id, $data);
 
-            return response()->json($province, 200);
+            return redirect()->route('provinces.index')->with('success', 'Province updated successfully');
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to update province'], 500);
+            return back()->with('error', 'Failed to update province');
         }
     }
 
     public function destroy($provinceId)
     {
         try {
-            $this->provinceRepository->deleteProvince($provinceId);
-            return response()->json(['message' => 'Province deleted successfully'], 200);
+            $this->provinceRepository->delete($provinceId);
+            return back()->with('success', 'Province deleted successfully');
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to delete province'], 500);
+            return back()->with('error', 'Failed to delete province');
         }
     }
 }
