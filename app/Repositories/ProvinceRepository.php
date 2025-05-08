@@ -7,9 +7,9 @@ use App\Repositories\Interfaces\ProvinceRepositoryInterface;
 
 class ProvinceRepository implements ProvinceRepositoryInterface
 {
-    public function all()
+    public function all($perpage = 10)
     {
-        return Province::all();
+        return Province::paginate($perpage);
     }
 
     public function create(array $data)
