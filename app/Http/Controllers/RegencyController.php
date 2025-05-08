@@ -21,27 +21,25 @@ class RegencyController extends Controller
         $search = $request->input('search');
         $provinceId = $request->input('province_id');
 
-        $query = Regency::with('province')
-            ->when($provinceId, function ($q) use ($provinceId) {
-                return $q->where('province_id', $provinceId);
+        $regencies = Regency::with('province')
+            ->when($provinceId, function ($query) use ($provinceId) {
+                return $query->where('province_id', $provinceId);
             })
-            ->when($search, function ($q) use ($search) {
-                return $q->where(function ($q) use ($search) {
+            ->when($search, function ($query) use ($search) {
+                return $query->where(function ($q) use ($search) {
                     $q->where('name', 'like', "%$search%")
-                        ->orWhere('population', 'like', "%$search%");
+                        ->orWhere('population', 'like', "%$search%")
+                        ->orWhereHas('province', function ($q) use ($search) {
+                            $q->where('name', 'like', "%$search%");
+                        });
                 });
-            });
+            })
+            ->orderBy('name')
+            ->paginate(10);
 
-        $regencies = $query->paginate(10);
+        $provinces = Province::orderBy('name')->get();
 
-        $provinces = Province::all();
-        // return $regencies;
-        return view('regencies.index', [
-            'regencies' => $regencies,
-            'provinces' => $provinces,
-            'selectedProvince' => $provinceId,
-            'searchQuery' => $search
-        ]);
+        return view('regencies.index', compact('regencies', 'provinces'));
     }
 
     public function store(Request $request)
