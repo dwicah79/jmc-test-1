@@ -9,4 +9,7 @@ interface RegencyRepositoryInterface
     public function find($id);
     public function update($id, array $data);
     public function delete($id);
+    public function getAllWithProvince();
+    public function getByProvince($provinceId);
+    public function getAllSorted();
 }
