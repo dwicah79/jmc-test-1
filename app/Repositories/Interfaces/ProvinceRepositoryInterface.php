@@ -4,9 +4,9 @@ namespace App\Repositories\Interfaces;
 
 interface ProvinceRepositoryInterface
 {
-    public function getAllProvinces();
-    public function getProvinceById($id);
-    public function createProvince(array $data);
-    public function updateProvince($id, array $data);
-    public function deleteProvince($id);
+    public function all();
+    public function create(array $data);
+    public function find($id);
+    public function update($id, array $data);
+    public function delete($id);
 }
