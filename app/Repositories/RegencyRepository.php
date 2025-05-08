@@ -5,13 +5,15 @@ use App\Repositories\Interfaces\RegencyRepositoryInterface;
 
 class RegencyRepository implements RegencyRepositoryInterface
 {
-    public function all($provinsiId = null)
+    public function all($provinceId = null, $paginate = false)
     {
         $query = Regency::with('province');
-        if ($provinsiId) {
-            $query->where('province', $provinsiId);
+
+        if ($provinceId) {
+            $query->where('province_id', $provinceId);
         }
-        return $query->get();
+
+        return $paginate ? $query->paginate(10) : $query->get();
     }
 
     public function create(array $data)
@@ -26,9 +28,9 @@ class RegencyRepository implements RegencyRepositoryInterface
 
     public function update($id, array $data)
     {
-        $kabupaten = $this->find($id);
-        $kabupaten->update($data);
-        return $kabupaten;
+        $regency = $this->find($id);
+        $regency->update($data);
+        return $regency;
     }
 
     public function delete($id)
